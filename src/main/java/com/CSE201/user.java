@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 /**
  * user class
  * default constructor, addUser, loadFile, updateFile, userverification
+ * @author Barb
  */
 public class user {
 	static ArrayList<User> users;
