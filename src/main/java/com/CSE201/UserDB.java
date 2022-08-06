@@ -1,19 +1,24 @@
 package com.CSE201;
-import java.io.*;
 import java.util.*;
-import java.util.logging.LogRecord;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * user class
  * default constructor, addUser, loadFile, updateFile, userverification
  * @author Barb
  */
-public class UserDB {
+public class user {
 	static ArrayList<User> users;
 	private final File file = new File(" ");
 
 	public void setUser(ArrayList<User> users) {
-	this.users = users;
+	this.user = users;
 	}
 	
 	/**
@@ -23,16 +28,16 @@ public class UserDB {
 	 * @param perms permission
      * @param lev levels
 	 */
-	public void addUser(Integer userId, String userName, String userPassword, int userLevel) {
-		users.add(new User(userId, userName, userPassword, userLevel));
+	public void addUser(String u, String pass, int perms, int lev) {
+		storage.add(new Users(u, pass, perms, lev));
 	}
 	
 	/**
 	 * Adds user with Users object
 	 * @param a users
 	 */
-	public void addUser(User a) {
-		users.add(a);
+	public void addUser(Users a) {
+		storage.add(a);
 		updateFileUser();
 	}
 	
@@ -40,15 +45,19 @@ public class UserDB {
 	 * Remove user with user object
 	 * @param user passed to remove
 	 */
-	public void removeUser(User user) {
-		users.remove(user);
+	public void removeUser(Users user) {
+		storage.remove(user);
 		updateFileUser();
 	}
-	public void removeUser(String userName) {
-		for (int i = 0; i < users.size(); i++){
-			if (users.get(i).getUserName() == userName){
-				users.remove(i);
-			}
+	
+	/***
+	 * Removes user based on username
+	 * @param id
+	 */
+	public void removeUser(String username) {
+		Users temp = this.getUser(username);
+		if(temp != null) {
+			removeUser(temp);
 		}
 	}
 
@@ -58,11 +67,11 @@ public class UserDB {
      * password (password may not be position 2
 	 */
     public boolean userverification(){
-        if (input != users.get(0).getUserName()) {
+        if (input != users[0][2]) { 
 		char c;
 		char x;  
             int count = 1;
-			if(UserDB.password.length(x) != input.length()){
+			if(user.password.length(x) != input.length()){
 				return false;
 			} else{
             for (int i = 0; i < password.length() - 1; i++) {  
@@ -94,7 +103,7 @@ public class UserDB {
         } catch (FileNotFoundException fe) {
             System.err.println(fe);
         }
-		return true;
+
 	}
 	/***
 	 * Removes user based on username
@@ -104,7 +113,7 @@ public class UserDB {
 	try{
 		FileOutputStream writeData = new FileOutputStream("users.ser");
 		ObjectOutputStream writeStream = new ObjectOutputStream(writeData);
-		writeStream.writeObject(users);
+		writeStream.writeObject(this.storage);
 		writeStream.flush();		
 		writeStream.close();
 			return true;
