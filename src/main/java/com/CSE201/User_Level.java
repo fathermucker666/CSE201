@@ -1,98 +1,78 @@
-package com.CSE201;
+import static org.junit.jupiter.api.Assertions.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.ArrayList;
 
-/**
- * This class can identify the level of the user 
- * @author dingy
- *
- */
-@Getter
-@Setter
-public class User_Level {
+import org.junit.jupiter.api.Test;
+
+class User_LevelTest {
 	
-	private int Level;
-	
-	/**
-	 * The default (empty) constructor.
-	 */
-	public User_Level() {
-		this(0);
-	}
-	
-	/**
-	 * A workhorse constructor that receives values for all instance properties and initializes the object.
-	 */
-	public User_Level(int Level) {
-		this.Level = Level;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean equals(Object o) {
-		if(!(o instanceof User_Level)) {
-			return false;
-		}
-		
-		User_Level u = (User_Level) o;
-		return u.Level == Level;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public String toString() {
-		return String.format("This user's level is : ", Level);
+	@Test
+	void testUser_Level() {
+		User_Level level = new User_Level();
+		assertEquals(0, level.getLevel());
 		
 	}
 
-	/**
-	 * returns a Integer Level.
-	 * @return
-	 */
-	public int getLevel() {
-		return Level;
+	@Test
+	void testUser_LevelInt() {
+		User_Level level = new User_Level(0);
+		assertEquals(0, level.getLevel());
+		User_Level level1 = new User_Level(1);
+		assertEquals(1, level1.getLevel());
+		User_Level level2 = new User_Level(2);
+		assertEquals(2, level2.getLevel());
+		User_Level level3 = new User_Level(3);
+		assertEquals(3, level3.getLevel());
+		
+		User_Level level4 = new User_Level(4);
+		assertEquals(-1, level4.getLevel());
 	}
 
-	/**
-	 * Sets the int level instance property.
-	 * @param level
-	 */
-	public void setLevel(int level) {
-		Level = level;
+	@Test
+	void testEqualsObject() {
+		User_Level level = new User_Level(3);
+		User_Level level1 = new User_Level(3);
+		User_Level level2 = new User_Level(0);
+		assertTrue(level.equals(level1));
+		assertFalse(level.equals(level2));
 	}
-	
-	/**
-	 * This method can identify the level of the user
-	 * @param level
-	 * @return
-	 */
-	public String levelpermission(int level) {
-		String permission = "";
-		
-		switch(level) {
-		case 0: 
-			permission = "guest";
-			break;
-		case 1: 
-			permission = "base user";
-			break;
-		case 2:
-			permission = "developer";
-			break;
-		case 3:
-			permission = "administrator";
-			break;
-		default:
-			permission = "error";
-			break;
-			
-		}
-		
-		return permission;
+
+	@Test
+	void testToString() {
+		User_Level level = new User_Level(3);
+		assertEquals("This user's level is : 3", level.toString());
+		User_Level level1 = new User_Level(4);
+		assertEquals("error!!", level1.toString());
 	}
+
+	@Test
+	void testGetLevel() {
+		User_Level level = new User_Level(2);
+		assertEquals(2, level.getLevel());
+	}
+
+	@Test
+	void testSetLevel() {
+		User_Level level = new User_Level(2);
+		assertEquals(2, level.getLevel());
+		level.setLevel(0);
+		assertEquals(0, level.getLevel());
+	}
+
+	@Test
+	void testLevelpermission() {
+		User_Level level = new User_Level(2);
+		assertEquals("developer", level.levelpermission(level.getLevel()));
+		User_Level level2 = new User_Level(0);
+		assertEquals("guest", level2.levelpermission(level2.getLevel()));
+		User_Level level3 = new User_Level(1);
+		assertEquals("base user", level3.levelpermission(level3.getLevel()));
+		User_Level level4 = new User_Level(3);
+		assertEquals("administrator", level4.levelpermission(level4.getLevel()));
+		User_Level level5 = new User_Level(5);
+		assertEquals("error", level5.levelpermission(level5.getLevel()));
+		
+		
+	}
+
 }
