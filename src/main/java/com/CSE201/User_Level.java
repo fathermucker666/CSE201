@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 class User_LevelTest {
 	
+	@Getter
+	@Setter
 	@Test
 	void testUser_Level() {
 		User_Level level = new User_Level();
